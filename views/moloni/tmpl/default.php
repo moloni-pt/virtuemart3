@@ -5,7 +5,7 @@
  * @website https://www.moloni.com
  * @email nuno@datasource.pt
  * @copyright Moloni
- * @license 
+ * @license
  * */
 // no direct access
 defined('_JEXEC') or die('Restricted access');
@@ -24,7 +24,7 @@ if (isset($_GET['action']) && $_GET['action'] == "update") {
                 $costumerID = entities::getCostumerID($client);
                 $invoiceResult = documents::createInvoice($orderID, $orderInfo, $orderItems, $costumerID);
                 if (!$invoiceResult) {
-                    
+
                 } else {
                     echo "<h1><b>Factura n.º $_GET[id] gerada com sucesso!</b></h1><br>";
                     general::listAllOrder();

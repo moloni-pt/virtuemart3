@@ -1,45 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-    <extension type="component" version="3.1" method="upgrade">
-	<name>Moloni</name>
-	<author>Nuno Almeida</author>
-	<creationDate>April 2014</creationDate>
-	<copyright>Moloni</copyright>
-	<license></license>
-	<authorEmail>nuno@datasource.pt</authorEmail>
-	<authorUrl>https://www.moloni.com</authorUrl>
-	<version>1.0</version>
-	<description>Plugin Moloni para VirtueMart</description>
-	<install>
-		<sql>
-			<file charset="utf8" driver="mysql">assets/install/install.sql</file>
-		</sql>
-	</install>
-	<update>
-		<sql>
-			<file charset="utf8" driver="mysql">assets/install/install.sql</file>
-		</sql>
-	</update>
-	<uninstall> 
-		<sql>
-			<file driver="mysql" charset="utf8">assets/install/uninstall.sql</file>
-		</sql>
-	</uninstall>
-	<administration>
-		<menu img="components/com_moloni/assets/images/icon-16-moloni.png">Moloni</menu>
-		<files folder="admin">
-			<filename>moloni.php</filename>
-			<filename>controller.php</filename>
-			<filename>index.html</filename>
-                        <filename>config.xml</filename>
-			<folder>views</folder>
-			<folder>models</folder>
-			<folder>assets</folder>
-			<folder>assets/images</folder>
-			<folder>assets/install</folder>
-			<folder>assets/css</folder>
-		</files>
-	</administration>
-	<updateservers>
-		<server type="extension" priority="1" name="Moloni Updates">http://plugins.moloni.com/virtuemart2/update.xml</server>
-	</updateservers>
+<extension type="component" version="3.1" method="upgrade">
+    <name>Moloni</name>
+    <author>Nuno Almeida</author>
+    <creationDate>April 2014</creationDate>
+    <copyright>Moloni</copyright>
+    <license></license>
+    <authorEmail>nuno@datasource.pt</authorEmail>
+    <authorUrl>https://www.moloni.com</authorUrl>
+    <version>1.0</version>
+    <description>Plugin Moloni para VirtueMart</description>
+    <install>
+        <sql>
+            <file charset="utf8" driver="mysql">assets/install/install.sql</file>
+        </sql>
+    </install>
+    <update>
+        <sql>
+            <file charset="utf8" driver="mysql">assets/install/install.sql</file>
+        </sql>
+    </update>
+    <uninstall>
+        <sql>
+            <file driver="mysql" charset="utf8">assets/install/uninstall.sql</file>
+        </sql>
+    </uninstall>
+    <administration>
+        <menu img="components/com_moloni/assets/images/icon-16-moloni.png">Moloni</menu>
+        <files folder="admin">
+            <filename>moloni.php</filename>
+            <filename>controller.php</filename>
+            <filename>index.html</filename>
+            <filename>config.xml</filename>
+            <folder>views</folder>
+            <folder>models</folder>
+            <folder>assets</folder>
+            <folder>assets/images</folder>
+            <folder>assets/install</folder>
+            <folder>assets/css</folder>
+        </files>
+    </administration>
+    <updateservers>
+        <server type="extension" priority="1" name="Moloni Updates">http://plugins.moloni.com/virtuemart2/update.xml
+        </server>
+    </updateservers>
 </extension>

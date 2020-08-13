@@ -1,0 +1,21 @@
+{
+  "name": "Moloni/Virtuemart3",
+  "description": "Integração Moloni com Virtuemart 3",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Nuno Almeida",
+      "email": "apoio@moloni.pt"
+    }
+  ],
+  "autoload": {
+    "classmap": [
+      "assets/functions/"
+    ]
+  },
+  "require": {
+    "ext-curl": "*",
+    "ext-json": "*"
+  }
+}

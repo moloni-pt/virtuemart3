@@ -5,7 +5,7 @@
  * @website https://www.moloni.com
  * @email nuno@datasource.pt
  * @copyright Moloni
- * @license 
+ * @license
  * */
 // no direct access
 defined('_JEXEC') or die('Restricted access');
@@ -27,7 +27,7 @@ class MoloniViewMoloni extends JViewLegacy
         if (JFactory::getUser()->authorise('core.admin', 'com_moloni')) {
             JToolBarHelper::preferences('com_moloni');
         }
-        
+
         JToolBarHelper::title('Moloni: Cloud Business Tools', 'moloni-titulo');
         $toolbar = JToolBar::getInstance('toolbar');
         //$toolbar->appendButton('Link', 'save', 'Início', 'index.php?option=com_moloni', 500, 210);

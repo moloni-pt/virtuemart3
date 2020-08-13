@@ -10,7 +10,7 @@ class start
     {
         $error = '';
 
-        if (isset($_POST['user']) && isset($_POST['pass']) && trim($_POST['user']) <> '' AND trim($_POST['pass']) <> '') {
+        if (isset($_POST['user']) && isset($_POST['pass']) && trim($_POST['user']) <> '' and trim($_POST['pass']) <> '') {
             $login = base::loginCURL(trim($_POST['user']), trim($_POST['pass']));
             if ($login) {
                 moloniDB::setTokens($login['access_token'], $login['refresh_token']);
@@ -105,6 +105,29 @@ class start
         }
     }
 
+    public static function objectsIntoArray($arrObjData, $arrSkipIndices = array())
+    {
+        $arrData = array();
+
+        // if input is object, convert into array
+        if (is_object($arrObjData)) {
+            $arrObjData = get_object_vars($arrObjData);
+        }
+
+        if (is_array($arrObjData)) {
+            foreach ($arrObjData as $index => $value) {
+                if (is_object($value) || is_array($value)) {
+                    $value = self::objectsIntoArray($value, $arrSkipIndices); // recursive call
+                }
+                if (in_array($index, $arrSkipIndices)) {
+                    continue;
+                }
+                $arrData[$index] = $value;
+            }
+        }
+        return $arrData;
+    }
+
     public static function forceUpdate()
     {
         $con = curl_init();
@@ -152,28 +175,5 @@ class start
         }
         curl_close($con);
 
-    }
-
-    public static function objectsIntoArray($arrObjData, $arrSkipIndices = array())
-    {
-        $arrData = array();
-
-        // if input is object, convert into array
-        if (is_object($arrObjData)) {
-            $arrObjData = get_object_vars($arrObjData);
-        }
-
-        if (is_array($arrObjData)) {
-            foreach ($arrObjData as $index => $value) {
-                if (is_object($value) || is_array($value)) {
-                    $value = self::objectsIntoArray($value, $arrSkipIndices); // recursive call
-                }
-                if (in_array($index, $arrSkipIndices)) {
-                    continue;
-                }
-                $arrData[$index] = $value;
-            }
-        }
-        return $arrData;
     }
 }

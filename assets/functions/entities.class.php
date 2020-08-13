@@ -92,6 +92,12 @@ class entities
         return false;
     }
 
+    public static function getNextNumber()
+    {
+        $results = base::cURL('customers/getNextNumber', ['company_id' => COMPANY_ID]);
+        return isset($results['number']) ? $results['number'] : false;
+    }
+
     public static function costumerInsert($values)
     {
         $results = base::cURL('customers/insert', $values);
@@ -101,11 +107,5 @@ class entities
         }
 
         return ($results['customer_id']);
-    }
-
-    public static function getNextNumber()
-    {
-        $results = base::cURL('customers/getNextNumber', ['company_id' => COMPANY_ID]);
-        return isset($results['number']) ? $results['number'] : false;
     }
 }

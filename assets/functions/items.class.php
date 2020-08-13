@@ -26,27 +26,7 @@ class products
         } else {
             $itemID = self::insertItem($reference, $item);
         }
-        return($itemID);
-    }
-
-    public static function getShipByRef($sku, $fullPrice, $taxPrice)
-    {
-
-        $reference = PRODUCT_PREFIX . $sku;
-
-        $values['company_id'] = COMPANY_ID;
-        $values['reference'] = $reference;
-        $values['qty'] = '1';
-        $values['offset'] = '0';
-
-        $results = base::cURL('products/getByReference', $values);
-
-        if (count($results) > 0) {
-            $itemID = $results[0]['product_id'];
-        } else {
-            $itemID = self::insertShiping($reference, $fullPrice, $taxPrice);
-        }
-        return($itemID);
+        return ($itemID);
     }
 
     public static function insertItem($reference, $item)
@@ -79,48 +59,7 @@ class products
             base::genError('products/insert', $values, $results);
             exit;
         } else {
-            return($results['product_id']);
-        }
-    }
-
-    public static function insertShiping($reference, $fullPrice, $taxPrice)
-    {
-
-        $values['company_id'] = COMPANY_ID;
-
-        $resultsCategory = self::getCategoryByName('Portes');
-        if ($resultsCategory) {
-            $id = $resultsCategory;
-        } else {
-            $id = self::insertCategory('Portes');
-        }
-
-        $values['category_id'] = self::getCategoryByName('Portes');
-        $values['type'] = '1';
-        $values['name'] = 'Portes';
-        $values['summary'] = 'Custo de transporte';
-        $values['reference'] = $reference;
-        $values['price'] = $fullPrice;
-        $values['unit_id'] = MEASURE_UNIT;
-        $values['has_stock'] = 1;
-        $values['stock'] = '1';
-        if ($taxPrice > 0) {
-            $values['taxes'] = array();
-            //245583
-            $values['taxes'][0]['tax_id'] = self::getTaxByVal(( $taxPrice * 100 ) / $fullPrice);
-            $values['taxes'][0]['value'] = $taxPrice;
-            $values['taxes'][0]['order'] = '1';
-            $values['taxes'][0]['cumulative'] = '0';
-        } else {
-            $values['exemption_reason'] = EXEMPTION_REASON;
-        }
-        $results = base::cURL('products/insert', ($values));
-
-        if (!isset($results['product_id'])) {
-            base::genError('products/insert', $values, $results);
-            exit;
-        } else {
-            return($results['product_id']);
+            return ($results['product_id']);
         }
     }
 
@@ -147,10 +86,10 @@ class products
 
         $resultsCategory = self::getCategoryByName($name);
         if ($resultsCategory) {
-            return($resultsCategory);
+            return ($resultsCategory);
         }
 
-        return(self::insertCategory($name) );
+        return (self::insertCategory($name));
     }
 
     public static function getCategoryByName($name, $parentID = 0)
@@ -172,11 +111,11 @@ class products
                 if ($categoria['num_categories'] > 0)
                     self::getCategoryByName($name, $categoria['category_id']);
             }
-        }else {
-            return(FALSE);
+        } else {
+            return (FALSE);
         }
-        if (empty(self::$exists) OR self::$exists == '' OR ! self::$exists) {
-            return(FALSE);
+        if (empty(self::$exists) or self::$exists == '' or !self::$exists) {
+            return (FALSE);
         } else
             return (self::$exists);
     }
@@ -186,7 +125,7 @@ class products
         $values['company_id'] = COMPANY_ID;
         $values['parent_id'] = $parent;
         $results = base::cURL('productCategories/getAll', $values);
-        return($results);
+        return ($results);
     }
 
     public static function insertCategory($name)
@@ -196,7 +135,7 @@ class products
         $values['name'] = $name;
         $values['description'] = '';
         $results = base::cURL('productCategories/insert', $values);
-        return($results['category_id']);
+        return ($results['category_id']);
     }
 
     public static function getTaxByVal($val)
@@ -220,6 +159,67 @@ class products
         }
 
         return $taxID;
+    }
+
+    public static function getShipByRef($sku, $fullPrice, $taxPrice)
+    {
+
+        $reference = PRODUCT_PREFIX . $sku;
+
+        $values['company_id'] = COMPANY_ID;
+        $values['reference'] = $reference;
+        $values['qty'] = '1';
+        $values['offset'] = '0';
+
+        $results = base::cURL('products/getByReference', $values);
+
+        if (count($results) > 0) {
+            $itemID = $results[0]['product_id'];
+        } else {
+            $itemID = self::insertShiping($reference, $fullPrice, $taxPrice);
+        }
+        return ($itemID);
+    }
+
+    public static function insertShiping($reference, $fullPrice, $taxPrice)
+    {
+
+        $values['company_id'] = COMPANY_ID;
+
+        $resultsCategory = self::getCategoryByName('Portes');
+        if ($resultsCategory) {
+            $id = $resultsCategory;
+        } else {
+            $id = self::insertCategory('Portes');
+        }
+
+        $values['category_id'] = self::getCategoryByName('Portes');
+        $values['type'] = '1';
+        $values['name'] = 'Portes';
+        $values['summary'] = 'Custo de transporte';
+        $values['reference'] = $reference;
+        $values['price'] = $fullPrice;
+        $values['unit_id'] = MEASURE_UNIT;
+        $values['has_stock'] = 1;
+        $values['stock'] = '1';
+        if ($taxPrice > 0) {
+            $values['taxes'] = array();
+            //245583
+            $values['taxes'][0]['tax_id'] = self::getTaxByVal(($taxPrice * 100) / $fullPrice);
+            $values['taxes'][0]['value'] = $taxPrice;
+            $values['taxes'][0]['order'] = '1';
+            $values['taxes'][0]['cumulative'] = '0';
+        } else {
+            $values['exemption_reason'] = EXEMPTION_REASON;
+        }
+        $results = base::cURL('products/insert', ($values));
+
+        if (!isset($results['product_id'])) {
+            base::genError('products/insert', $values, $results);
+            exit;
+        } else {
+            return ($results['product_id']);
+        }
     }
 
 }

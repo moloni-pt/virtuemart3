@@ -10,22 +10,22 @@ class sql
             $query = $db->getQuery(true);
             $query->select($fields);
             $query->from('#__' . $table);
-            
+
             if ($where) {
                 $query->where($where);
             }
-            
+
             if ($order) {
                 $query->order($order);
             }
-            
+
             if ($limit) {
                 $query->limit($limit);
             }
 
             $db->setQuery($query);
             $results = $db->loadObjectList();
-            return($results);
+            return ($results);
         } catch (Exception $e) {
             throw new Exception('Ups, algo correu mal :(', 0, $e);
         }
@@ -39,7 +39,7 @@ class sql
                 $insertValues->$key = $val;
             }
             $result = JFactory::getDbo()->insertObject('#__' . $table, $insertValues);
-            return($result);
+            return ($result);
         } catch (Exception $e) {
             throw new Exception('Ups, algo correu mal :(', 0, $e);
         }
@@ -53,7 +53,7 @@ class sql
                 $insertValues->$key = $val;
             }
             $result = JFactory::getDbo()->updateObject('#__' . $table, $insertValues, $id);
-            return($result);
+            return ($result);
         } catch (Exception $e) {
             throw new Exception('Ups, algo correu mal :(', 0, $e);
         }
@@ -84,46 +84,46 @@ class moloniBasics
     {
         $values = array('company_id' => COMPANY_ID);
         $results = base::cURL('documentSets/getAll', $values);
-        return($results);
+        return ($results);
     }
 
     public static function paymentMethods()
     {
         $values = array('company_id' => COMPANY_ID);
         $results = base::cURL('paymentMethods/getAll', $values);
-        return($results);
+        return ($results);
     }
 
     public static function measurementUnits()
     {
         $values = array('company_id' => COMPANY_ID);
         $results = base::cURL('measurementUnits/getAll', $values);
-        return($results);
+        return ($results);
     }
 
     public static function exemptionReasons()
     {
         $results = base::cURL('taxExemptions/getAll');
-        return($results);
+        return ($results);
     }
 
     public static function maturityDates()
     {
         $values['company_id'] = COMPANY_ID;
         $results = base::cURL('maturityDates/getAll', $values);
-        return($results);
+        return ($results);
     }
 
     public static function countries()
     {
         $results = base::cURL('countries/getAll');
-        return($results);
+        return ($results);
     }
 
     public static function languages()
     {
         $results = base::cURL('languages/getAll');
-        return($results);
+        return ($results);
     }
 
 }
@@ -133,40 +133,40 @@ class vmBasics
     public static function customFields()
     {
         $results = sql::select('*', 'virtuemart_userfields');
-        return($results);
+        return ($results);
     }
 
     public static function getAllOrders()
     {
         $results = sql::select('*', 'virtuemart_orders', 'moloni_sent < 1', 'virtuemart_order_id ASC');
-        return($results);
+        return ($results);
     }
 
     public static function getOneOrder($id)
     {
         $results = sql::select('*', 'virtuemart_orders', "moloni_sent < 1 AND virtuemart_order_id = '$id'", 'virtuemart_order_id ASC');
-        return($results);
+        return ($results);
     }
 
     public static function getAllItemsByOrder($id)
     {
         $id = (int)$id;
         $results = sql::select('*', 'virtuemart_order_items', "virtuemart_order_id = '$id'");
-        return($results);
+        return ($results);
     }
 
     public static function getOneClientByOrder($orderID)
     {
         $orderID = (int)$orderID;
         $results = sql::select('*', 'virtuemart_order_userinfos', "virtuemart_order_id = '$orderID'");
-        return($results);
+        return ($results);
     }
 
     public static function getOneCountryByID($id)
     {
         $id = (int)$id;
         $results = sql::select('*', 'virtuemart_countries', "virtuemart_country_id = '$id'");
-        return($results);
+        return ($results);
     }
 
 }
@@ -183,7 +183,7 @@ class general
         } else {
             $zip = '1000-100'; // usar Cod nao valido
         }
-        return($zip);
+        return ($zip);
     }
 
     public static function getCountryID($id)
@@ -192,10 +192,10 @@ class general
         $resultsVM = vmBasics::getOneCountryByID($id);
         foreach ($resultsMoloni as $result) {
             if (strtoupper($result['iso_3166_1']) == $resultsVM[0]->country_2_code) {
-                return($result['country_id']);
+                return ($result['country_id']);
             }
         }
-        return('1');
+        return ('1');
     }
 
     public static function getLanguageID($id)
@@ -204,10 +204,10 @@ class general
         $resultsVM = vmBasics::getOneCountryByID($id);
         foreach ($resultsMoloni as $result) {
             if (strtoupper($result['code']) == $resultsVM[0]->country_2_code) {
-                return($result['language_id']);
+                return ($result['language_id']);
             }
         }
-        return('1');
+        return ('1');
     }
 
     public static function listAllOrder()
