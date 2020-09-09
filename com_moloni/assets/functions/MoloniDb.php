@@ -40,19 +40,19 @@ class MoloniDb
     public static function defineValues()
     {
         $results = self::getInfo();
-        if (isset($results->id)) {
+        if (isset($results->id) && !defined('SESSION_ID')) {
             define('SESSION_ID', $results->id);
         }
 
-        if (isset($results->main_token)) {
+        if (isset($results->main_token) && !defined('ACCESS_TOKEN')) {
             define('ACCESS_TOKEN', trim($results->main_token));
         }
 
-        if (isset($results->refresh_token)) {
+        if (isset($results->refresh_token) && !defined('REFRESH_TOKEN')) {
             define('REFRESH_TOKEN', $results->refresh_token);
         }
 
-        if (isset($results->company_id)) {
+        if (isset($results->company_id) && !defined('COMPANY_ID')) {
             define('COMPANY_ID', $results->company_id);
         }
     }

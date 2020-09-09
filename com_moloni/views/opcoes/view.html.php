@@ -6,7 +6,6 @@ use Moloni\Functions\Sql;
 
 jimport('joomla.application.component.view');
 
-//////// todo: Ask Nuno Almeida
 if (!class_exists( 'VmConfig' )) {
     require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
 }
@@ -14,7 +13,6 @@ VmConfig::loadConfig();
 if (!class_exists( 'VmModel' )) {
     require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/vmmodel.php');
 }
-//////// todo: Ask Nuno Almeida
 
 /**
  * Classe responsável pelo menu de configurações de utilizador do componente 'Moloni'.

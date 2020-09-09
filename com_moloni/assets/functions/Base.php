@@ -128,7 +128,7 @@ class Base
         return ($companies);
     }
 
-    public static function cURL($action, $values = false)
+    public static function cURL($action, $values = [])
     {
         $con = curl_init();
         $url = 'https://api.moloni.pt/v1/' . $action . '/?access_token=' . ACCESS_TOKEN;

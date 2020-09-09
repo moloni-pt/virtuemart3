@@ -15,6 +15,7 @@ class plgSystemMoloni extends JPlugin
      */
     public function plgVmOnUpdateOrderPayment($data, $old_order_status)
     {
+
         require_once __DIR__ . '/../../../administrator/components/com_moloni/vendor/autoload.php';
 
         if (isset($data, $old_order_status)) {
