@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <extension type="package" version="2.0" method="upgrade">
+ <name>Moloni</name>
+ <author>Moloni Lda</author>
+ <creationDate>September 2020</creationDate>
+ <packagename>moloni_pkg</packagename>
+ <version>2.0.0</version>
+ <url>https://moloni.pt</url>
+ <packager>Moloni</packager>
+ <url>https://moloni.pt</url>
+ <description>Moloni Full Module</description>
+ <files>
+   <file type="component" id="com_moloni" >com_moloni.zip</file>
+   <file type="plugin" id="plg_moloni" >plg_moloni.zip</file>
+ </files>
+ </extension>
+
+ 
