@@ -6,11 +6,34 @@ use Moloni\Functions\Log;
 
 class Hooks
 {
+    /**
+     * Order ID
+     * @var int
+     */
     private $orderId;
+
+    /**
+     * New order status
+     * @var string
+     */
     private $orderStatus;
+
+    /**
+     * Order Number
+     * @var string
+     */
     private $order_number;
+
+    /**
+     * Order object
+     * @var object
+     */
     private $orderObj;
 
+    /**
+     * Hooks constructor.
+     * @param $order object order that was just updated
+     */
     function __construct($order)
     {
         $this->orderId = $order->virtuemart_order_id;
@@ -18,6 +41,10 @@ class Hooks
         $this->order_number = $order->order_number;
     }
 
+    /**
+     * Checks if a document can be created
+     * @return bool returns true or false
+     */
     public function init()
     {
         MoloniDb::defineValues();
@@ -49,6 +76,10 @@ class Hooks
         return false;
     }
 
+    /**
+     * Create document
+     * @throws \Exception
+     */
     public function createDocument()
     {
         $orderItems = Virtuemart::getAllItemsByOrder($this->orderId);
@@ -60,7 +91,7 @@ class Hooks
         if ($invoiceResult) {
             $msg = sprintf('Documento da encomenda %s gerada automaticamente com sucesso!', $this->order_number);
         } else {
-            $msg = sprintf('Algo pode ter corrido errado na encomenda %s.', $this->order_number);
+            $msg = sprintf('Ups, algo de errado pode ter acontecido a gerar documento %s.', $this->order_number);
         }
 
         //cleans any messages that may have been set during document creation
