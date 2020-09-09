@@ -15,5 +15,4 @@ jimport('joomla.application.component.model');
 
 class MoloniModelOpcoes extends JModelItem
 {
-
 }

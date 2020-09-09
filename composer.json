@@ -10,9 +10,9 @@
     }
   ],
   "autoload": {
-    "classmap": [
-      "assets/functions/"
-    ]
+    "psr-4": {
+      "Moloni\\Functions\\": "assets/functions/"
+    }
   },
   "require": {
     "ext-curl": "*",

@@ -1,9 +1,9 @@
 <?php
-defined('_JEXEC') or die('Restricted access');
 
-class products
+namespace Moloni\Functions;
+
+class Products
 {
-
     public static $exists;
 
     public static function getItemByRef($sku, $item)
@@ -19,7 +19,7 @@ class products
         $values['qty'] = '1';
         $values['offset'] = '0';
 
-        $results = base::cURL('products/getByReference', $values);
+        $results = Base::cURL('products/getByReference', $values);
 
         if (count($results) > 0) {
             $itemID = $results[0]['product_id'];
@@ -53,10 +53,10 @@ class products
             $values['exemption_reason'] = EXEMPTION_REASON;
         }
 
-        $results = base::cURL('products/insert', ($values));
+        $results = Base::cURL('products/insert', ($values));
 
         if (!isset($results['product_id'])) {
-            base::genError('products/insert', $values, $results);
+            Base::genError('products/insert', $values, $results);
             exit;
         } else {
             return ($results['product_id']);
@@ -65,14 +65,14 @@ class products
 
     public static function getItemCategory($id)
     {
-        $results = sql::select('*', 'virtuemart_product_categories', "virtuemart_product_id = $id");
+        $results = Sql::select('*', 'virtuemart_product_categories', "virtuemart_product_id = $id");
 
         try {
-            $results = sql::select('*', 'virtuemart_categories_en_gb', 'virtuemart_category_id = ' . $results[0]->virtuemart_category_id . '');
+            $results = Sql::select('*', 'virtuemart_categories_en_gb', 'virtuemart_category_id = ' . $results[0]->virtuemart_category_id . '');
             $name = $results[0]->category_name;
         } catch (Exception $ex) {
             try {
-                $results = sql::select('*', 'virtuemart_categories_pt_pt', 'virtuemart_category_id = ' . $results[0]->virtuemart_category_id . '');
+                $results = Sql::select('*', 'virtuemart_categories_pt_pt', 'virtuemart_category_id = ' . $results[0]->virtuemart_category_id . '');
                 $name = $results[0]->category_name;
             } catch (Exception $ex) {
                 $name = '';
@@ -112,10 +112,10 @@ class products
                     self::getCategoryByName($name, $categoria['category_id']);
             }
         } else {
-            return (FALSE);
+            return (false);
         }
         if (empty(self::$exists) or self::$exists == '' or !self::$exists) {
-            return (FALSE);
+            return (false);
         } else
             return (self::$exists);
     }
@@ -124,7 +124,7 @@ class products
     {
         $values['company_id'] = COMPANY_ID;
         $values['parent_id'] = $parent;
-        $results = base::cURL('productCategories/getAll', $values);
+        $results = Base::cURL('productCategories/getAll', $values);
         return ($results);
     }
 
@@ -134,7 +134,7 @@ class products
         $values['parent_id'] = '0';
         $values['name'] = $name;
         $values['description'] = '';
-        $results = base::cURL('productCategories/insert', $values);
+        $results = Base::cURL('productCategories/insert', $values);
         return ($results['category_id']);
     }
 
@@ -142,7 +142,7 @@ class products
     {
         $taxID = 0;
         $values['company_id'] = COMPANY_ID;
-        $results = base::cURL('taxes/getAll', $values);
+        $results = Base::cURL('taxes/getAll', $values);
         foreach ($results as $tax) {
             if (round($tax['value'], 2) == (round($val, 2))) {
                 $taxID = $tax['tax_id'];
@@ -171,7 +171,7 @@ class products
         $values['qty'] = '1';
         $values['offset'] = '0';
 
-        $results = base::cURL('products/getByReference', $values);
+        $results = Base::cURL('products/getByReference', $values);
 
         if (count($results) > 0) {
             $itemID = $results[0]['product_id'];
@@ -212,10 +212,10 @@ class products
         } else {
             $values['exemption_reason'] = EXEMPTION_REASON;
         }
-        $results = base::cURL('products/insert', ($values));
+        $results = Base::cURL('products/insert', ($values));
 
         if (!isset($results['product_id'])) {
-            base::genError('products/insert', $values, $results);
+            Base::genError('products/insert', $values, $results);
             exit;
         } else {
             return ($results['product_id']);

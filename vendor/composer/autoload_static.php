@@ -6,23 +6,25 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit89c831151a9e3c8f40c8537bb886d330
 {
-    public static $classMap = array (
-        'base' => __DIR__ . '/../..' . '/assets/functions/base.functions.php',
-        'documents' => __DIR__ . '/../..' . '/assets/functions/documents.class.php',
-        'entities' => __DIR__ . '/../..' . '/assets/functions/entities.class.php',
-        'general' => __DIR__ . '/../..' . '/assets/functions/general.functions.php',
-        'moloniBasics' => __DIR__ . '/../..' . '/assets/functions/general.functions.php',
-        'moloniDB' => __DIR__ . '/../..' . '/assets/functions/base.functions.php',
-        'products' => __DIR__ . '/../..' . '/assets/functions/items.class.php',
-        'sql' => __DIR__ . '/../..' . '/assets/functions/general.functions.php',
-        'start' => __DIR__ . '/../..' . '/assets/functions/start.functions.php',
-        'vmBasics' => __DIR__ . '/../..' . '/assets/functions/general.functions.php',
+    public static $prefixLengthsPsr4 = array (
+        'M' => 
+        array (
+            'Moloni\\Functions\\' => 17,
+        ),
+    );
+
+    public static $prefixDirsPsr4 = array (
+        'Moloni\\Functions\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/assets/functions',
+        ),
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->classMap = ComposerStaticInit89c831151a9e3c8f40c8537bb886d330::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit89c831151a9e3c8f40c8537bb886d330::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit89c831151a9e3c8f40c8537bb886d330::$prefixDirsPsr4;
 
         }, null, ClassLoader::class);
     }

@@ -1,7 +1,8 @@
 <?php
-defined('_JEXEC') or die('Restricted access');
 
-class entities
+namespace Moloni\Functions;
+
+class Entities
 {
     public static function getCostumerID($clientInfo)
     {
@@ -34,11 +35,11 @@ class entities
             $values['vat'] = $vat;
             $values['number'] = $nextNumber;
             $values['name'] = str_replace('  ', ' ', $clientInfo[0]->first_name . ' ' . $clientInfo[0]->middle_name . ' ' . $clientInfo[0]->last_name);
-            $values['language_id'] = general::getLanguageID($clientInfo[0]->virtuemart_country_id);
+            $values['language_id'] = General::getLanguageID($clientInfo[0]->virtuemart_country_id);
             $values['address'] = $clientInfo[0]->address_1;
-            $values['zip_code'] = general::verifyZip($clientInfo[0]->zip);
+            $values['zip_code'] = General::verifyZip($clientInfo[0]->zip);
             $values['city'] = $clientInfo[0]->city;
-            $values['country_id'] = general::getCountryID($clientInfo[0]->virtuemart_country_id);
+            $values['country_id'] = General::getCountryID($clientInfo[0]->virtuemart_country_id);
             $values['email'] = $clientInfo[0]->email;
             $values['website'] = '';
             $values['phone'] = $clientInfo[0]->phone_1;
@@ -69,7 +70,7 @@ class entities
         $values['offset'] = '0';
         $values['exact'] = '1';
 
-        $results = base::cURL('customers/getByVat', $values);
+        $results = Base::cURL('customers/getByVat', $values);
         if (count($results[0]) > 0) {
             return ($results[0]['customer_id']);
         }
@@ -84,7 +85,7 @@ class entities
         $values['offset'] = '0';
         $values['exact'] = '1';
 
-        $results = base::cURL('customers/getByEmail', $values);
+        $results = Base::cURL('customers/getByEmail', $values);
         if (count($results[0]) > 0) {
             return ($results[0]['customer_id']);
         }
@@ -94,16 +95,15 @@ class entities
 
     public static function getNextNumber()
     {
-        $results = base::cURL('customers/getNextNumber', ['company_id' => COMPANY_ID]);
+        $results = Base::cURL('customers/getNextNumber', ['company_id' => COMPANY_ID]);
         return isset($results['number']) ? $results['number'] : false;
     }
 
     public static function costumerInsert($values)
     {
-        $results = base::cURL('customers/insert', $values);
+        $results = Base::cURL('customers/insert', $values);
         if (!isset($results['customer_id'])) {
-            base::genError('customers/insert', $values, $results);
-            exit;
+            Base::genError('customers/insert', $values, $results);
         }
 
         return ($results['customer_id']);

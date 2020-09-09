@@ -1,86 +1,46 @@
-﻿<?php
-defined('_JEXEC') or die('Restricted access');
+<?php
 
-class start
+namespace Moloni\Functions;
+
+class Start
 {
-
     const version = 1.00;
 
     public static function login()
     {
-        $error = '';
-
-        if (isset($_POST['user']) && isset($_POST['pass']) && trim($_POST['user']) <> '' and trim($_POST['pass']) <> '') {
-            $login = base::loginCURL(trim($_POST['user']), trim($_POST['pass']));
+        if (isset($_POST['user'], $_POST['pass']) && trim($_POST['user']) !== '' && trim($_POST['pass']) !== '') {
+            $login = Base::loginCURL(trim($_POST['user']), trim($_POST['pass']));
             if ($login) {
-                moloniDB::setTokens($login['access_token'], $login['refresh_token']);
+                MoloniDb::setTokens($login['access_token'], $login['refresh_token']);
             } else {
-                $error = TRUE;
+                Messages::$messages['login'] = "Utilizador/Password Errados";
+
+                return false;
             }
         }
 
-        $dbInfo = moloniDB::getInfo();
+        $dbInfo = MoloniDb::getInfo();
+
         if (isset($dbInfo->main_token)) {
-            define('LOGGED', TRUE);
+            define('LOGGED', true);
         } else {
-            define('LOGGED', FALSE);
+            define('LOGGED', false);
+            return false;
         }
 
-        if (!LOGGED) {
-            self::loginForm($error);
-            return (FALSE);
-        }
+        MoloniDb::refreshTokens();
+        MoloniDb::defineValues();
 
-        moloniDB::refreshTokens();
-        moloniDB::defineValues();
         if (defined('COMPANY_ID')) {
-            return (TRUE);
+            return true;
         }
 
         if (isset($_GET['company_id'])) {
-            $update = sql::update('moloni_api', array('id' => SESSION_ID, 'company_id' => $_GET['company_id']), 'id');
-            moloniDB::defineValues();
-            return (FALSE);
+            Sql::update('moloni_api', array('id' => SESSION_ID, 'company_id' => $_GET['company_id']), 'id');
+            MoloniDb::defineValues();
         }
 
-        self::companiesForm();
-        return (FALSE);
-
-    }
-
-    public static function loginForm($error = FALSE)
-    {
-        echo "<div id='formLogin'>";
-        echo "<a href='https://moloni.com/dev/' target='_BLANK'> <img src='https://www.moloni.com/_imagens/_tmpl/bo_logo_topo_01.png' width='300px'> </a>
-			<hr> <form id='formPerm' method='POST' action=''><table>";
-        echo "<tr> <td><label for='username'>Utilizador/Email</label> </td><td><input type='text' name='user'></td></tr>";
-
-
-        echo "<tr> <td><label for='password'>Password</label></td><td><input type='password' name='pass'></td></tr>";
-        if ($error) {
-            echo "<tr> <td></td><td style='text-align: center;'> Utilizador/Password Errados</td></tr>";
-        }
-        echo "<tr> <td></td><td><input type='submit' name='submit' value='login'><input type='reset' name='limpar' value='limpar'> <span class='goRight power'>Powered by: Moloni API</span></td></tr>";
-        echo '</table></form></div>';
-    }
-
-    public static function companiesForm()
-    {
-        $companies = base::selectCompanies();
-        echo "<div class='outBoxEmpresa'>";
-        foreach ($companies as $key => $company) {
-            echo '<div class="caixaLoginEmpresa" onclick=" window.location.href=\'index.php?option=com_moloni&company_id=' . $company['company_id'] . '\' " title="Login/Entrar ' . $company['name'] . '">';
-            echo '<div class="caixaLoginEmpresa_logo">';
-            echo '		<span>';
-            if (trim($company['image']) <> '') echo '<img src="https://www.moloni.com/_imagens/?macro=imgAC_iconeEmpresa_s2&amp;img=' . $company['image'] . '" alt="' . $company['name'] . '" style="margin:0 10px 0 0; vertical-align:middle;">';
-            echo '		</span>';
-            echo '	</div>';
-            echo '	<span class="t14_b">' . $company['name'] . '</span>';
-            echo '	<br>' . $company['address'] . '';
-            echo '	<br>' . $company['zip_code'] . '';
-            echo '	<p><b>Contribuinte</b>: ' . $company['vat'] . '</p></div>';
-        }
-        echo '</div>';
+        return true;
     }
 
     public static function update()
@@ -173,7 +133,7 @@ class start
             fwrite($handle, ($text));
             echo 'Ficheiro bem actualizado ' . ($fileN) . '!<br>';
         }
-        curl_close($con);
 
+        curl_close($con);
     }
 }

@@ -43,6 +43,15 @@ INSERT INTO `#__moloni_api_config`(config, description)
 VALUES ('product_prefix', 'Prefixo da referência do produto');
 INSERT INTO `#__moloni_api_config`(config, description)
 VALUES ('vat_field', 'Número de contribuinte');
+INSERT INTO `#__moloni_api_config`(config, description)
+VALUES('email_send', 'Enviar email');
+INSERT INTO `#__moloni_api_config`(config, description)
+VALUES('invoice_auto', 'Enviar automaticamente documentos');
+INSERT INTO `#__moloni_api_config`(config, description)
+VALUES('invoice_auto_status', 'Estado do documento a ser gerado automaticamente');
+
+
+
 
 
 ALTER TABLE `#__virtuemart_orders`

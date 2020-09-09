@@ -6,14 +6,4 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'base' => $baseDir . '/assets/functions/base.functions.php',
-    'documents' => $baseDir . '/assets/functions/documents.class.php',
-    'entities' => $baseDir . '/assets/functions/entities.class.php',
-    'general' => $baseDir . '/assets/functions/general.functions.php',
-    'moloniBasics' => $baseDir . '/assets/functions/general.functions.php',
-    'moloniDB' => $baseDir . '/assets/functions/base.functions.php',
-    'products' => $baseDir . '/assets/functions/items.class.php',
-    'sql' => $baseDir . '/assets/functions/general.functions.php',
-    'start' => $baseDir . '/assets/functions/start.functions.php',
-    'vmBasics' => $baseDir . '/assets/functions/general.functions.php',
 );
