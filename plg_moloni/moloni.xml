@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.0" type="plugin" group="system">
+	<name>Moloni - Hooks</name>
+	<author>Moloni</author>
+	<creationDate>September 2020</creationDate>
+	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License</license>
+	<authorEmail>apoio@moloni.com</authorEmail>
+	<authorUrl>www.moloni.com</authorUrl>
+	<version>1.0</version>
+	<description>Plugin para criar documentos automáticamente</description>
+	<files>
+		<filename plugin="moloni">moloni.php</filename>
+	</files>
+</extension>
