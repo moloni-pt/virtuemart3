@@ -21,6 +21,9 @@ hr {
     border-bottom: 1px solid #ddd;
 }
 
+#modal-options {
+    z-index: 99999;
+}
 
 .tableOptions {
     width: 100%;

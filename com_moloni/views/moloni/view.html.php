@@ -128,6 +128,7 @@ class MoloniViewMoloni extends JViewLegacy
     /**
      * Logout da conta
      *
+     * @throws Exception
      */
     private function logout()
     {
@@ -160,7 +161,7 @@ class MoloniViewMoloni extends JViewLegacy
             . '</button>'
             . '<button type="button" class="btn btn-success"'
             . ' onclick="jQuery(\'#modal-options iframe\').contents().find(\'#formOpcoes\').submit();">'
-            . JText::_('JSAVE')
+            . JText::_('Guardar')
             . '</button>'
         );
 

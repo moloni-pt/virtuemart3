@@ -19,7 +19,7 @@ MoloniDb::defineConfigs();
                 <select name='opt[document_set_id]' id='docSet' class='inputOut'>
                     <?php $docSets = MoloniSettings::documentSets(); ?>
                     <?php foreach ($docSets as $docSet) : ?>
-                        <?php $selected = ($docSet['document_set_id'] === MoloniDb::$settings['document_set_id']); ?>
+                        <?php $selected = ((int)$docSet['document_set_id'] === (int)MoloniDb::$settings['document_set_id']); ?>
                         <option value='<?php echo $docSet['document_set_id'] ?>' <?php echo $selected ? 'selected' : '' ?>>
                             <?php echo $docSet['name'] ?>
                         </option>

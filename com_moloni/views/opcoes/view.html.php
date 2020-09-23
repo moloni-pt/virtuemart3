@@ -37,7 +37,10 @@ class MoloniViewOpcoes extends JViewLegacy
         $this->setLayout('index');
         $tmpl = empty($tmpl) ? 'settings' : $tmpl;
 
-        $this->init();
+        try {
+            $this->init();
+        } catch (Exception $e) {
+        }
 
         parent::display($tmpl);
     }
@@ -47,6 +50,7 @@ class MoloniViewOpcoes extends JViewLegacy
      * utilizador logado e é chamada a função responsável por guardar os novos valores guardados.
      *
      * @return null
+     * @throws Exception
      */
     public function init()
     {
