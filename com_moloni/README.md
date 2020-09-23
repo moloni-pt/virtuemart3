@@ -1,1 +1,1 @@
-Virtuemart3
+Virtuemart3 - Moloni
