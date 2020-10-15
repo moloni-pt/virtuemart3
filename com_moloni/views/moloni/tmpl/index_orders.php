@@ -32,13 +32,15 @@ $orderStatuses = $orderStatusModel->getOrderStatusNames(true);
             <tr>
                 <td><?php echo $order->virtuemart_order_id; ?></td>
                 <td>
-                    <a href='index.php?option=com_virtuemart&view=orders&task=edit&virtuemart_order_id=
-                $order->virtuemart_order_id' target='_self'><?php echo $order->order_number; ?>
+                    <a href='index.php?option=com_virtuemart&view=orders&task=edit&virtuemart_order_id=<?php echo $order->virtuemart_order_id; ?>' target='_blank'
+                    >
+                        <?php echo $order->order_number; ?>
                     </a>
                 </td>
                 <td>
-                    <a href='index.php?option=com_virtuemart&view=user&task=edit&virtuemart_user_id[]=
-                $order->virtuemart_user_id' target='_self'><?php echo $client[0]->first_name; ?>
+                    <a href='index.php?option=com_virtuemart&view=user&task=edit&virtuemart_user_id[]=<?php echo $order->virtuemart_user_id; ?>' target='_blank'
+                    >
+                        <?php echo $client[0]->first_name; ?>
                         <?php echo $client[0]->last_name; ?>
                     </a>
                 </td>
