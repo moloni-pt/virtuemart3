@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3.1" method="upgrade">
     <name>Moloni</name>
-    <author>Nuno Almeida</author>
+    <author>Moloni Lda</author>
     <creationDate>April 2014</creationDate>
     <copyright>Moloni</copyright>
     <license></license>

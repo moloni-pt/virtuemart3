@@ -157,7 +157,7 @@ class MoloniViewMoloni extends JViewLegacy
             '',
             '',
             '<button type="button" class="btn" data-dismiss="modal">'
-            . JText::_('JCANCEL')
+            . JText::_('Cancelar')
             . '</button>'
             . '<button type="button" class="btn btn-success"'
             . ' onclick="jQuery(\'#modal-options iframe\').contents().find(\'#formOpcoes\').submit();">'
