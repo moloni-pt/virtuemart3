@@ -43,8 +43,14 @@ class Documents
         $x = 0;
 
         foreach ($orderItems as $item) {
-            $discount = abs(($item->product_subtotal_discount / $item->product_quantity) * 100 / $item->product_item_price);
-            $discount = ($discount < 0) ? 0 : ($discount > 100) ? 100 : $discount;
+            /*Calculo do desconto associado a uma encomenda*/
+            $discount = abs(($item->product_subtotal_discount / $item->product_quantity) * 100 / $item->product_basePriceWithTax);
+
+            if (($discount < 0)) {
+                $discount = 0;
+            } elseif ($discount > 100) {
+                $discount = 100;
+            }
 
             $values['products'][$x]['product_id'] = Products::getItemByRef($item->order_item_sku, $item);
             $values['products'][$x]['name'] = $item->order_item_name;
@@ -86,6 +92,11 @@ class Documents
             } else {
                 $values['products'][$x]['exemption_reason'] = EXEMPTION_REASON;
             }
+        }
+
+        /*Calculo do desconto através de cupões associado a uma encomenda*/
+        if (isset($orderInfo[0]->coupon_discount)) {
+            $values['financial_discount'] = (1 - (($orderInfo[0]->order_salesPrice + $orderInfo[0]->coupon_discount) / $orderInfo[0]->order_salesPrice)) * 100;
         }
 
         $values['notes'] = '';

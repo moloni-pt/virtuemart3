@@ -6,15 +6,16 @@ class Entities
 {
     public static function getCostumerID($clientInfo)
     {
-
+        $vat = '';
         $vatField = defined('VAT_FIELD') ? VAT_FIELD : 'undefined';
-        $vat = $clientInfo[0]->$vatField;
+
+        if (isset($clientInfo[0]->$vatField)) {
+            $vat = $clientInfo[0]->$vatField;
+        }
 
         if (trim($vat) === '') {
             $vat = '999999990';
         }
-
-        $clientID = false;
 
         if ($vat !== '999999990') {
             $clientID = self::getByVat(['vat' => $vat]);
