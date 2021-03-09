@@ -19,7 +19,7 @@ class Messages
      */
     public static function addSessionMessage($msg = "")
     {
-        if (!is_array($_SESSION['messages'])) {
+        if (!isset($_SESSION['messages']) || !is_array($_SESSION['messages'])) {
             $_SESSION['messages'] = [];
         }
 

@@ -95,7 +95,7 @@ class Documents
         }
 
         /*Calculo do desconto através de cupões associado a uma encomenda*/
-        if (isset($orderInfo[0]->coupon_discount)) {
+        if (isset($orderInfo[0], $orderInfo[0]->coupon_discount)) {
             $values['financial_discount'] = (1 - (($orderInfo[0]->order_salesPrice + $orderInfo[0]->coupon_discount) / $orderInfo[0]->order_salesPrice)) * 100;
         }
 
