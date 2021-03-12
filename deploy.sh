@@ -16,3 +16,5 @@ rm com_moloni.zip
 rm plg_moloni.zip
 
 echo "Process complete!"
+
+sleep 5s

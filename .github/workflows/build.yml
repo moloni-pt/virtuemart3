@@ -1,0 +1,34 @@
+name: Build Release
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Building up release
+        run: |
+          echo "Preparing Moloni Component..."
+          cd com_moloni/ && zip -r ../com_moloni.zip * && cd ..
+          echo "Preparing Moloni Plugin..."
+          cd plg_moloni/ && zip -r ../plg_moloni.zip * && cd ..
+          echo "Packing everything up..."
+          zip pkg_moloni.zip com_moloni.zip plg_moloni.zip pkg_moloni.xml
+          echo "Deleting temporary files..."
+          rm com_moloni.zip
+          rm plg_moloni.zip
+          echo "Process complete!"
+
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v4
+        with:
+          author_name: Moloni
+          author_email: dev@moloni.com
+          message: "Self deployment"
+          add: "pkg_moloni.zip"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
