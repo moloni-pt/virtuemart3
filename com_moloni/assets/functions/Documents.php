@@ -40,18 +40,61 @@ class Documents
         $values['special_discount'] = '';
         $values['related_documents_notes'] = '';
         $values['products'] = array();
-        $x = 0;
 
+        $x = 0;
+        $linesSum = 0; //Variável que representa a soma das linhas dos produtos sem os portes incluídos
+
+        //Soma do valor dos produtos sem os portes
         foreach ($orderItems as $item) {
-            $discount = abs(($item->product_subtotal_discount / $item->product_quantity) * 100 / $item->product_item_price);
-            $discount = ($discount < 0) ? 0 : ($discount > 100) ? 100 : $discount;
+            /*Calculo do desconto associado a uma encomenda*/
+            $discount = abs(($item->product_subtotal_discount / $item->product_quantity) * 100 / $item->product_basePriceWithTax);
+
+            if (($discount < 0)) {
+                $discount = 0;
+            } elseif ($discount > 100) {
+                $discount = 100;
+            }
+
+            $withDiscount = $item->product_item_price - ($item->product_item_price * ($discount / 100));
+
+            $tax = 0;
+            if ((float)$item->product_tax > 0) {
+                $tax = $item->product_tax;
+            }
+
+            $linesSum += (($withDiscount + $tax) * $item->product_quantity);
+
+            $x++;
+        }
+
+        $x = 0;
+        foreach ($orderItems as $item) {
+            /*Calculo do desconto associado a uma encomenda*/
+            $discount = abs(($item->product_subtotal_discount / $item->product_quantity) * 100 / $item->product_basePriceWithTax);
+
+            if (($discount < 0)) {
+                $discount = 0;
+            } elseif ($discount > 100) {
+                $discount = 100;
+            }
+
+            //Preço produto
+            $prodPrice = $item->product_item_price;
+            //Calcular valor % do cupão
+            $calculatedPercentageCoupon = (100 * -$orderInfo[0]->coupon_discount) / $linesSum;
+            //Calcular o novo preço do produto com o desconto original
+            $priceWithOriginalDiscount = $prodPrice - ($prodPrice * ($discount / 100));
+            //Calcular o valor do desconto já com o cupão
+            $finalDiscountValue = $priceWithOriginalDiscount - ($priceWithOriginalDiscount * ($calculatedPercentageCoupon / 100));
+            //Desconto final (Desconto original + Cupão)
+            $finalDiscount = 100 - (100 * ($finalDiscountValue) / $prodPrice);
 
             $values['products'][$x]['product_id'] = Products::getItemByRef($item->order_item_sku, $item);
             $values['products'][$x]['name'] = $item->order_item_name;
             $values['products'][$x]['summary'] = '';
             $values['products'][$x]['qtd'] = $item->product_quantity;
             $values['products'][$x]['price'] = $item->product_item_price;
-            $values['products'][$x]['discount'] = $discount;
+            $values['products'][$x]['discount'] = $finalDiscount;
             $values['products'][$x]['order'] = $x + 1;
             if ((float)$item->product_tax > 0) {
                 $values['products'][$x]['taxes'] = [];
@@ -102,7 +145,7 @@ class Documents
         $addedDocument = Base::cURL(DOCUMENT_TYPE . '/getOne', ['company_id' => COMPANY_ID, 'document_id' => $results['document_id']]);
 
         if (defined('DOCUMENT_STATUS') && (int)DOCUMENT_STATUS === 1) {
-            $orderTotal = (float)$orderInfo[0]->order_total;
+            $orderTotal = round((float)$orderInfo[0]->order_total, 2);
             $documentTotal = (float)$addedDocument['exchange_total_value'] > 0 ? (float)$addedDocument['exchange_total_value'] : (float)$addedDocument['net_value'];
             if ($orderTotal !== $documentTotal) {
                 Messages::addSessionMessage(

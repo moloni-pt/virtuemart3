@@ -6,15 +6,16 @@ class Entities
 {
     public static function getCostumerID($clientInfo)
     {
-
+        $vat = '';
         $vatField = defined('VAT_FIELD') ? VAT_FIELD : 'undefined';
-        $vat = $clientInfo[0]->$vatField;
+
+        if (isset($clientInfo[0]->$vatField)) {
+            $vat = $clientInfo[0]->$vatField;
+        }
 
         if (trim($vat) === '') {
             $vat = '999999990';
         }
-
-        $clientID = false;
 
         if ($vat !== '999999990') {
             $clientID = self::getByVat(['vat' => $vat]);
@@ -71,7 +72,7 @@ class Entities
         $values['exact'] = '1';
 
         $results = Base::cURL('customers/getByVat', $values);
-        if (count($results[0]) > 0) {
+        if (isset($results[0]) && is_array($results[0]) && isset($results[0]['customer_id']) > 0) {
             return ($results[0]['customer_id']);
         }
 
@@ -104,6 +105,7 @@ class Entities
         $results = Base::cURL('customers/insert', $values);
         if (!isset($results['customer_id'])) {
             Base::genError('customers/insert', $values, $results);
+            return false;
         }
 
         return ($results['customer_id']);
