@@ -93,4 +93,14 @@ class Sql
         }
 
     }
+
+    /**
+     * Remove um 'field' escolhido da base de dados 'moloni_api_config'
+     *
+     * @throws \Exception
+     */
+    public static function cleanMoloniConfig()
+    {
+        self::delete('moloni_api_config', 'config', '"email_send"');
+    }
 }
