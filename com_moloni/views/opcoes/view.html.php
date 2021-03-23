@@ -75,9 +75,16 @@ class MoloniViewOpcoes extends JViewLegacy
 class='msgAlertaForms'>Dados guardados 
 <a class='moloniClose' onclick='this.parentNode.style.display = \"none\"'>&#10005;</a>
 </div>";
+
             foreach ($_POST['opt'] as $key => $val) {
                 try {
-                    Sql::update('moloni_api_config', ['config' => $key, 'selected' => $val], 'config');
+                    $results = Sql::select('*', 'moloni_api_config', "config = '$key'");
+
+                    if(isset($results) && count($results)) {
+                        Sql::update('moloni_api_config', ['config' => $key, 'selected' => $val], 'config');
+                    } else {
+                        Sql::insert('moloni_api_config', ['config' => $key, 'selected' => $val]);
+                    }
                 } catch (Exception $e) {
                     throw new \Exception('Ups, algo correu mal :(', 0, $e);
                 }
