@@ -22,9 +22,12 @@ class General
     {
         $resultsMoloni = MoloniSettings::countries();
         $resultsVM = Virtuemart::getOneCountryByID($id);
-        foreach ($resultsMoloni as $result) {
-            if (strtoupper($result['iso_3166_1']) == $resultsVM[0]->country_2_code) {
-                return ($result['country_id']);
+
+        if(isset($resultsMoloni) && is_array($resultsMoloni)) {
+            foreach ($resultsMoloni as $result) {
+                if (strtoupper($result['iso_3166_1']) === $resultsVM[0]->country_2_code) {
+                    return ($result['country_id']);
+                }
             }
         }
 
@@ -35,11 +38,13 @@ class General
     {
         $resultsMoloni = MoloniSettings::languages();
         $resultsVM = Virtuemart::getOneCountryByID($id);
-        foreach ($resultsMoloni as $result) {
-            if (strtoupper($result['code']) == $resultsVM[0]->country_2_code) {
-                return ($result['language_id']);
-            }
 
+        if(isset($resultsMoloni) && is_array($resultsMoloni)) {
+            foreach ($resultsMoloni as $result) {
+                if (strtoupper($result['code']) === $resultsVM[0]->country_2_code) {
+                    return ($result['language_id']);
+                }
+            }
         }
 
         return ('1');

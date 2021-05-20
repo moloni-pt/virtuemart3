@@ -83,6 +83,8 @@ class Hooks
     public function createDocument()
     {
         $orderItems = Virtuemart::getAllItemsByOrder($this->orderId);
+        $orderInfo = Virtuemart::getOneOrder($this->orderId);
+        $this->orderObj = $orderInfo;
         $client = Virtuemart::getOneClientByOrder($this->orderId);
         $costumerID = Entities::getCostumerID($client);
 
