@@ -66,14 +66,19 @@ class Products
     public static function getItemCategory($id)
     {
         $results = Sql::select('*', 'virtuemart_product_categories', "virtuemart_product_id = $id");
+        $name = '';
 
         try {
             $results = Sql::select('*', 'virtuemart_categories_en_gb', 'virtuemart_category_id = ' . $results[0]->virtuemart_category_id . '');
-            $name = $results[0]->category_name;
+            if (!empty($results)) {
+                $name = $results[0]->category_name;
+            }
         } catch (Exception $ex) {
             try {
                 $results = Sql::select('*', 'virtuemart_categories_pt_pt', 'virtuemart_category_id = ' . $results[0]->virtuemart_category_id . '');
-                $name = $results[0]->category_name;
+                if (!empty($results)) {
+                    $name = $results[0]->category_name;
+                }
             } catch (Exception $ex) {
                 $name = '';
             }
@@ -143,16 +148,21 @@ class Products
         $taxID = 0;
         $values['company_id'] = COMPANY_ID;
         $results = Base::cURL('taxes/getAll', $values);
-        foreach ($results as $tax) {
-            if (round($tax['value'], 2) == (round($val, 2))) {
-                $taxID = $tax['tax_id'];
-                break;
-            }
 
-            if (round($tax['value']) == (round($val))) {
-                $taxID = $tax['tax_id'];
+        if(!empty($results)) {
+            foreach ($results as $tax) {
+
+                if (round($tax['value'], 2) === (round($val, 2))) {
+                    $taxID = $tax['tax_id'];
+                    break;
+                }
+
+                if (round($tax['value']) === (round($val))) {
+                    $taxID = $tax['tax_id'];
+                }
             }
         }
+
 
         if ($taxID === 0) {
             $taxID = self::getTaxByVal(23);

@@ -166,7 +166,7 @@ class Documents
 <a class='moloniClose' onclick='this.parentNode.style.display = \"none\"'>&#10005;</a>
 </div>"
                 );
-                $orderID = (int)$_GET['id'];
+
                 $client = Virtuemart::getOneClientByOrder($orderID);
 
                 $closeDocument['send_email'] = [];
