@@ -114,21 +114,8 @@ class MoloniViewMoloni extends JViewLegacy
      */
     public function homeMoloni()
     {
-        try {
-            $ordersPageUrl = JRoute::link(
-                'administrator',
-                'index.php?option=com_moloni',
-                false,
-                0,
-                1
-            );
-        } catch (Exception $e) {
-            $this->limparUrl();
-            exit;
-        }
-
         session_write_close();
-        header('Location: ' . $ordersPageUrl);
+        header('Location: http://lojas.spydesk.com/virtuemart32/administrator/index.php?option=com_moloni');
     }
 
     /**
