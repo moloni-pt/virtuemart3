@@ -114,13 +114,8 @@ class MoloniViewMoloni extends JViewLegacy
      */
     public function homeMoloni()
     {
-        $ordersPageUrl = JRoute::link(
-            'administrator',
-            'index.php?option=com_moloni',
-            false,
-            0,
-            1
-        );
+        $ordersPageUrl = JRoute::_("index.php?option=com_moloni");
+
         session_write_close();
         header('Location: ' . $ordersPageUrl);
     }
