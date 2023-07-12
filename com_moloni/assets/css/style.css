@@ -144,10 +144,9 @@ hr {
 }
 
 .msgAlertaForms .moloniClose {
-    position: absolute;
+    margin-right: 30px;
     cursor: pointer;
-    right: 1rem;
-    top: 1rem;
+    float: right;
 }
 
 .msgAlertaForms2 {
