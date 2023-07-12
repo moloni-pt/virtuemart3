@@ -137,6 +137,24 @@ class Documents
         $results = Base::cURL(DOCUMENT_TYPE . '/insert', ($values));
 
         if (!isset($results['document_id'])) {
+            $message = "
+                <div class='msgAlertaForms2'>
+                    <div>
+                        Erro a inserir documento
+                    </div>
+                    <br />
+                    <div>
+                        Resposta:
+                        <pre>
+                        " . json_encode($results) . "
+                        </pre>
+                    </div>
+                    <a class='moloniClose' onclick='this.parentNode.style.display = \"none\"'>&#10005;</a>
+                </div>
+            ";
+
+            Messages::addSessionMessage($message);
+
             return false;
         } else {
             Sql::update('virtuemart_orders', array('virtuemart_order_id' => $orderID, 'moloni_sent' => $results['document_id']), 'virtuemart_order_id');
