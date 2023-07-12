@@ -150,7 +150,7 @@ hr {
 }
 
 .msgAlertaForms2 {
-    padding: 8px 35px 8px 14px;
+    padding: 8px 14px;
     margin-bottom: 18px;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
     background-color: #fcf8e3;
@@ -158,12 +158,14 @@ hr {
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    text-align: center;
+    position: relative;
 }
 
 .msgAlertaForms2 .moloniClose {
+    position: absolute;
     cursor: pointer;
-    float: right;
+    right: 14px;
+    top: 8px;
 }
 
 .msgAlertaForms3 {
