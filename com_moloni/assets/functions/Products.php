@@ -73,13 +73,14 @@ class Products
             if (!empty($results)) {
                 $name = $results[0]->category_name;
             }
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             try {
                 $results = Sql::select('*', 'virtuemart_categories_pt_pt', 'virtuemart_category_id = ' . $results[0]->virtuemart_category_id . '');
+
                 if (!empty($results)) {
                     $name = $results[0]->category_name;
                 }
-            } catch (Exception $ex) {
+            } catch (\Exception $ex) {
                 $name = '';
             }
         }
