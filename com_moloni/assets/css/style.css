@@ -118,15 +118,6 @@ hr {
     border-radius: 3px;
 }
 
-.close {
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    right: 0%;
-    padding: 12px 16px;
-    transform: translate(0%, -50%);
-}
-
 .msgAlertaForms {
     padding: 8px 0 8px 0;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
@@ -402,7 +393,6 @@ hr {
     float: right;
 }
 
-.icon-logout:before {
+.icon-signup:before {
     color: #942a25;
-    content: "\4a";
 }

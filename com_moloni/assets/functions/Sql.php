@@ -75,7 +75,7 @@ class Sql
             $query->delete($db->quoteName('#__' . $table));
             $query->where($conditions);
             $db->setQuery($query);
-            $result = $db->query();
+            $result = $db->execute();
         } catch (\Exception $e) {
             throw new \Exception('Ups, algo correu mal :(', 0, $e);
         }

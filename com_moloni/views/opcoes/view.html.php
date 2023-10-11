@@ -33,6 +33,7 @@ class MoloniViewOpcoes extends JViewLegacy
     public function display($tmpl = '')
     {
         JHtml::stylesheet(Juri::base() . 'components/com_moloni/assets/css/style.css');
+        JHtml::_('jquery.framework');
 
         $this->setLayout('index');
         $tmpl = empty($tmpl) ? 'settings' : $tmpl;

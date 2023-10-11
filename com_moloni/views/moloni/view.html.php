@@ -11,12 +11,12 @@ use Moloni\Functions\General;
 
 defined('_JEXEC') or die('Restricted access');
 
-if (!class_exists( 'VmConfig' )) {
-    require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/config.php');
+if (!class_exists('VmConfig')) {
+    require(JPATH_ROOT . '/administrator/components/com_virtuemart/helpers/config.php');
 }
 VmConfig::loadConfig();
-if (!class_exists( 'VmModel' )) {
-    require(JPATH_ROOT .'/administrator/components/com_virtuemart/helpers/vmmodel.php');
+if (!class_exists('VmModel')) {
+    require(JPATH_ROOT . '/administrator/components/com_virtuemart/helpers/vmmodel.php');
 }
 
 /**
@@ -28,6 +28,8 @@ if (!class_exists( 'VmModel' )) {
 class MoloniViewMoloni extends JViewLegacy
 {
     private $tmpl = 'login';
+
+    //           Publics           //
 
     /**
      * Display da view "home" (index_orders). Display da toolbar que permite aceder as configurações e fazer logout.
@@ -41,6 +43,7 @@ class MoloniViewMoloni extends JViewLegacy
     {
         JHtml::stylesheet(Juri::base() . 'components/com_moloni/assets/css/style.css');
         JHtml::script(Juri::base() . 'components/com_moloni/assets/js/moloni.js');
+        JHtml::_('jquery.framework');
 
         JToolBarHelper::title('Moloni: Cloud Business Tools', 'moloni-titulo');
 
@@ -52,7 +55,9 @@ class MoloniViewMoloni extends JViewLegacy
 
         if ($this->isLoggedIn()) {
             $this->tmpl = empty($tmpl) ? 'orders' : $tmpl;
-            $this->addToolbar();
+
+            $this->addLogoutToToolbar();
+            $this->addSettingsToToolbar();
         }
 
         if (isset($_GET['action']) && $_GET['action'] === 'makeInvoice') {
@@ -69,6 +74,8 @@ class MoloniViewMoloni extends JViewLegacy
 
         parent::display($this->tmpl);
     }
+
+    //           Privates           //
 
     /**
      * Verifica se o utilizador esta logado e caso tenha feito login com sucesso é redirecionado para a
@@ -112,13 +119,15 @@ class MoloniViewMoloni extends JViewLegacy
      * Após ser chamado este método é redirecionado para a "Home" do componente 'Moloni'.
      * (http://lojas.spydesk.com/virtuemart32/administrator/index.php?option=com_moloni)
      */
-    public function homeMoloni()
+    private function homeMoloni()
     {
         $ordersPageUrl = JRoute::_("index.php?option=com_moloni");
 
         session_write_close();
         header('Location: ' . $ordersPageUrl);
     }
+
+    //           Actions           //
 
     /**
      * Logout da conta
@@ -133,44 +142,11 @@ class MoloniViewMoloni extends JViewLegacy
     }
 
     /**
-     * Adiciona a toolbar com as opções de "Configurações" e de "Logout" a view principal do componente 'Moloni'
-     *
-     * @return null
-     */
-    protected function addToolbar()
-    {
-        $toolbar = JToolBar::getInstance('toolbar');
-        $toolbar->appendButton(
-            'Popup',
-            'options',
-            'Configurações',
-            'index.php?option=com_moloni&view=opcoes&tmpl=component',
-            1000,
-            500,
-            0,
-            0,
-            '',
-            '',
-            '<button type="button" class="btn" data-dismiss="modal">'
-            . JText::_('Cancelar')
-            . '</button>'
-            . '<button type="button" class="btn btn-success"'
-            . ' onclick="jQuery(\'#modal-options iframe\').contents().find(\'#formOpcoes\').submit();">'
-            . JText::_('Guardar')
-            . '</button>'
-        );
-
-        JToolbarHelper::link('index.php?option=com_moloni&action=logout', 'Logout', 'logout');
-
-        return null;
-    }
-
-    /**
      * Ao clicar no botão da tabela "Ações -> Gerar" é emitido um documento que irá ser inserido no Moloni.
      * Caso a criação do documento seja feita com sucesso, serão retornadas as mensagens de sucesso caso contrário é
      * apresentado uma mensagem de erro com os respetivos detalhes do erro.
      */
-    public function makeInvoice()
+    private function makeInvoice()
     {
         $orderID = (int)$_GET['id'];
         $orderInfo = Virtuemart::getOneOrder($orderID);
@@ -185,7 +161,7 @@ class MoloniViewMoloni extends JViewLegacy
 
             if ($invoiceResult) {
                 Messages::addSessionMessage(
-"<div class='msgSucesso'>Fatura n.º $_GET[id] gerada com sucesso!
+                    "<div class='msgSucesso'>Fatura n.º $_GET[id] gerada com sucesso!
 <a class='moloniClose' onclick='this.parentNode.style.display = \"none\"'>&#10005;</a>
 </div>"
                 );
@@ -204,7 +180,7 @@ class MoloniViewMoloni extends JViewLegacy
     /**
      * Ao clicar no botão da tabela "Ações -> Descartar" é removida uma encomenda da tabela e apresenta mensagem.
      */
-    public function removeOrder()
+    private function removeOrder()
     {
         General::markOrder($_GET['id']);
         Messages::addSessionMessage(
@@ -213,5 +189,58 @@ class MoloniViewMoloni extends JViewLegacy
 </div>"
         );
         $this->homeMoloni();
+    }
+
+    //           Toolbar           //
+
+    protected function addLogoutToToolbar()
+    {
+        $toolbar = JToolBar::getInstance('toolbar');
+
+        /** Settings button */
+
+        $modalButtons = '<button type="button" class="btn btn-secondary" data-dismiss="modal" data-bs-dismiss="modal">';
+        $modalButtons .= JText::_('Cancelar');
+        $modalButtons .= '</button>';
+        $modalButtons .= '<button type="button" class="btn btn-success" onclick="jQuery(\'#modal-options iframe\').contents().find(\'#formOpcoes\').submit();">';
+        $modalButtons .= JText::_('Guardar');
+        $modalButtons .= '</button>';
+
+        if (version_compare(JVERSION, '4.0.0', '>=')) {
+            $props = [
+                'Popup',
+                'options',
+                'Configurações',
+                'index.php?option=com_moloni&view=opcoes&tmpl=component',
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                $modalButtons
+            ];
+        } else {
+            $props = [
+                'Popup',
+                'options',
+                'Configurações',
+                'index.php?option=com_moloni&view=opcoes&tmpl=component',
+                1000,
+                500,
+                0,
+                0,
+                '',
+                '',
+                $modalButtons
+            ];
+        }
+
+        $toolbar->appendButton(...$props);
+    }
+
+    protected function addSettingsToToolbar()
+    {
+        JToolbarHelper::link('index.php?option=com_moloni&action=logout', 'Logout', 'signup');
     }
 }

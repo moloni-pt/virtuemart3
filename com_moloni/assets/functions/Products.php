@@ -21,7 +21,7 @@ class Products
 
         $results = Base::cURL('products/getByReference', $values);
 
-        if (count($results) > 0) {
+        if (isset($results[0]['product_id'])) {
             $itemID = $results[0]['product_id'];
         } else {
             $itemID = self::insertItem($reference, $item);
@@ -184,7 +184,7 @@ class Products
 
         $results = Base::cURL('products/getByReference', $values);
 
-        if (count($results) > 0) {
+        if (isset($results[0]['product_id'])) {
             $itemID = $results[0]['product_id'];
         } else {
             $itemID = self::insertShiping($reference, $fullPrice, $taxPrice);
@@ -198,13 +198,14 @@ class Products
         $values['company_id'] = COMPANY_ID;
 
         $resultsCategory = self::getCategoryByName('Portes');
+
         if ($resultsCategory) {
             $id = $resultsCategory;
         } else {
             $id = self::insertCategory('Portes');
         }
 
-        $values['category_id'] = self::getCategoryByName('Portes');
+        $values['category_id'] = $id;
         $values['type'] = '1';
         $values['name'] = 'Portes';
         $values['summary'] = 'Custo de transporte';

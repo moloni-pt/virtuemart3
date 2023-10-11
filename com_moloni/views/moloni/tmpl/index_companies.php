@@ -16,7 +16,7 @@ $companies = Base::selectCompanies();
             <div class="caixaLoginEmpresa_logo">
             <span>
             <?php if (trim($company['image']) !== '') : ?>
-                <?php echo '<img src="https://www.moloni.com/_imagens/?macro=imgAC_iconeEmpresa_s2&amp;img='
+                <?php echo '<img src="https://www.moloni.pt/_imagens/?macro=imgAC_iconeEmpresa_s2&amp;img='
                     . $company['image'] . '" alt="'
                     . $company['name'] . '" style="margin:0 10px 0 0; vertical-align:middle;">';
                 ?>

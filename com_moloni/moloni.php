@@ -11,6 +11,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.controller');
+
 // Access check.
 if (!JFactory::getUser()->authorise('core.manage', 'com_moloni')) {
     return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));

@@ -8,8 +8,9 @@ use Moloni\Functions\Virtuemart;
 defined('_JEXEC') or die('Restricted access');
 
 MoloniDb::defineConfigs();
+
+Messages::printMessages();
 ?>
-<?php Messages::printMessages(); ?>
 
 <form method='POST' action='' id='formOpcoes'>
     <?php if (defined('COMPANY_ID')) : ?>
