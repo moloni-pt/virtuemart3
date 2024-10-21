@@ -8,8 +8,8 @@ MoloniDb::defineConfigs();
 ?>
 
 <div id='formLogin'>
-    <a href='https://moloni.com/dev/' target='_BLANK'>
-        <img src='https://www.moloni.com/_imagens/_tmpl/bo_logo_topo_01.png' width='300px'>
+    <a href='https://moloni.pt/dev/' target='_BLANK'>
+        <img src='https://www.moloni.pt/_imagens/_tmpl/bo_logo_topo_01.png' width='300px'>
     </a>
     <form id='formPerm' method='POST' action=''>
         <table>
@@ -30,8 +30,8 @@ MoloniDb::defineConfigs();
             <tr>
                 <td></td>
                 <td>
-                    <input type='submit' name='submit' value='login'>
-                    <input type='reset' name='limpar' value='limpar'>
+                    <input type='submit' name='submit' value='Login'>
+                    <input type='reset' name='limpar' value='Limpar'>
                     <span class='goRight power'>Powered by: Moloni API</span>
                 </td>
             </tr>

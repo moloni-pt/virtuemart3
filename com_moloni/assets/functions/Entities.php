@@ -72,6 +72,7 @@ class Entities
         $values['exact'] = '1';
 
         $results = Base::cURL('customers/getByVat', $values);
+
         if (isset($results[0]) && is_array($results[0]) && isset($results[0]['customer_id']) > 0) {
             return ($results[0]['customer_id']);
         }
@@ -87,8 +88,9 @@ class Entities
         $values['exact'] = '1';
 
         $results = Base::cURL('customers/getByEmail', $values);
-        if (count($results[0]) > 0) {
-            return ($results[0]['customer_id']);
+
+        if (isset($results[0]['customer_id'])) {
+            return (int)$results[0]['customer_id'];
         }
 
         return false;
@@ -97,12 +99,14 @@ class Entities
     public static function getNextNumber()
     {
         $results = Base::cURL('customers/getNextNumber', ['company_id' => COMPANY_ID]);
+
         return isset($results['number']) ? $results['number'] : false;
     }
 
     public static function costumerInsert($values)
     {
         $results = Base::cURL('customers/insert', $values);
+
         if (!isset($results['customer_id'])) {
             Base::genError('customers/insert', $values, $results);
             return false;

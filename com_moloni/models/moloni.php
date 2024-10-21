@@ -15,6 +15,9 @@ jimport('joomla.application.component.model');
 
 class MoloniModelMoloni extends JModelItem
 {
-
+    public function getItem($pk = null)
+    {
+        // TODO: Implement getItem() method.
+    }
 }
 
